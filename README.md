@@ -3,7 +3,7 @@ callback object tool
 
 ## install
 
-npm install cbo
+`npm install cbo`
 
 ## API document
 

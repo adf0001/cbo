@@ -1,0 +1,14 @@
+{
+  "name": "cbo",
+  "description": "callback object tool",
+  "license": "MIT",
+  "version": "1.0.0",
+  "main": "cbo.js",
+  "keywords": [
+    "callback"
+  ],
+  "author": {
+    "name": "fwg",
+    "email": "adf0001@163.com"
+  }
+}

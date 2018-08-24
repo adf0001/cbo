@@ -21,7 +21,8 @@
     "protocol": "html://",
     "methodHeadingReturns": false,
     "default":{
-    	"outputSourceFiles": false
+    	"outputSourceFiles": false,
+    	"includeDate": false
     }
   },
   "markdown": {

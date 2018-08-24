@@ -20,7 +20,6 @@
  *  * [.combine()						]{@link module:cbo~combine}
  * 
  *  * [.toCallback()					]{@link module:cbo~toCallback}
- *  * [.toCallbackOnce()				]{@link module:cbo~toCallbackOnce}
  * 
  * <a name='defineCallbackObject'></a>
  * 
@@ -38,9 +37,9 @@
  *
  * 
  * @example
-var $cbo= require("./cbo.js");
+var cbo= require("cbo");
 
-$cbo.call(...);
+cbo.call(...);
 
 */
 
@@ -59,11 +58,7 @@ function _call(cbo, argArrayExtra, insertBefore) {
 	var func = (typeof cbo[1] == "string") ? cbo[0][cbo[1]] : cbo[1];
 
 	if (argArrayExtra) {
-		if (insertBefore) {
-			return cbo[2] ? func.apply(cbo[0], argArrayExtra.concat(cbo[2])) : func.apply(cbo[0], argArrayExtra);
-		} else {
-			return cbo[2] ? func.apply(cbo[0], cbo[2].concat(argArrayExtra)) : func.apply(cbo[0], argArrayExtra);
-		}
+		func.apply(cbo[0], cbo[2]?(insertBefore?argArrayExtra.concat(cbo[2]):cbo[2].concat(argArrayExtra)):argArrayExtra );
 	} else {
 		return cbo[2] ? func.apply(cbo[0], cbo[2]) : func.apply(cbo[0]);
 	}
@@ -90,30 +85,48 @@ function combine(cbo, argArrayExtra, insertBefore) {
  * @function toCallback
  * 
  * @param {cbo} cbo - a cbo object
+ * @param {number} [reserve] - the count of reserved original prefix arguments
  * 
  * @returns a callback function
+ * 
+ * @example
+ * function f(a1,a2,a3,a4){
+ *     console.log([a1,a2,a3,a4]);
+ * }
+ * 
+ * var cboTest= [null,f,['aa']];
+ * var cb1= cbo.toCallback(cboTest);
+ * cb1();	//aa
+ * cb1('bb');	//bb,aa
+ * cb1('bb','cc')	//bb,cc,aa
+ * var cb2= cbo.toCallback(cboTest,0);
+ * cb2();	//aa
+ * cb2('bb');	//aa
+ * var cb3= cbo.toCallback(cboTest,1);
+ * cb3();	//undefined,aa
+ * cb3('bb');	//bb,aa
+ * cb3('bb','cc');	//bb,aa
+ * 
  */
-function toCallback(cbo) {
+function toCallback(cbo, reserve) {
 	if (!cbo[0] && !cbo[2]) return cbo[1];
-	else return function () {
-		_call(cbo);
+	
+	if( typeof(reserve) === "undefined" ) {
+		return function () {
+			_call(cbo, arguments.length?Array.prototype.slice.call(arguments):null, true);
+		}
 	}
-}
 
+	if( !reserve ) {
+		return function () {
+			_call(cbo);
+		}
+	}
 
-/**
- * create a normal callback function that can be called only once
- * @function toCallbackOnce
- * 
- * @param {cbo} cbo - a cbo object
- * 
- * @returns a callback function
- */
-function toCallbackOnce(cbo) {
-	if (!cbo[0] && !cbo[2]) return cbo[1];
-	else return function () {
-		_call(cbo);
-		cbo = null;
+	return function () {
+		var arg= Array.prototype.slice.call(arguments,0,reserve);
+		if( arg.length<reserve ) arg= arg.concat(new Array(reserve-arg.length));
+		_call(cbo, arg, true);
 	}
 }
 
@@ -128,7 +141,7 @@ function toCallbackOnce(cbo) {
  * @return system timer id
  */
 function _setTimeout(cbo, ms) {
-	return setTimeout(this.toCallbackOnce(cbo), ms);
+	return setTimeout(this.toCallback(cbo), ms);
 }
 
 //module
@@ -139,7 +152,6 @@ module.exports = {
 	combine: combine,
 
 	toCallback: toCallback,
-	toCallbackOnce: toCallbackOnce,
 
 	setTimeout: _setTimeout,
 };

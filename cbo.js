@@ -14,7 +14,6 @@
  *  * [Callback object					](#defineCallbackObject)
  * 2. Call tool
  *  * [.call()							]{@link module:cbo~call}
- *  * [.setTimeout()					]{@link module:cbo~setTimeout}
  * 
  * 3. Build tool
  *  * [.combine()						]{@link module:cbo~combine}
@@ -131,19 +130,6 @@ function toCallback(cbo, reserve) {
 }
 
 
-/**
- * call system `setTimeout` by cbo
- * @function setTimeout
- * 
- * @param {cbo} cbo - a cbo object
- * @param {number} ms - milliseconds to delay
- * 
- * @return system timer id
- */
-function _setTimeout(cbo, ms) {
-	return setTimeout(this.toCallback(cbo), ms);
-}
-
 //module
 
 module.exports = {
@@ -151,8 +137,7 @@ module.exports = {
 
 	combine: combine,
 
-	toCallback: toCallback,
+	toCallback: toCallback
 
-	setTimeout: _setTimeout,
 };
 

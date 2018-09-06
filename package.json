@@ -2,7 +2,7 @@
   "name": "cbo",
   "description": "callback object tool",
   "license": "MIT",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "main": "cbo.js",
   "keywords": [
     "callback"

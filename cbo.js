@@ -130,14 +130,9 @@ function toCallback(cbo, reserve) {
 }
 
 
-//module
+//module, toolset
 
-module.exports = {
-	call: _call,
-
-	combine: combine,
-
-	toCallback: toCallback
-
-};
+exports.call= _call;
+exports.combine= combine;
+exports.toCallback= toCallback;
 

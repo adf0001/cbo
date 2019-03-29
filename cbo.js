@@ -6,12 +6,13 @@
  * 
  * @description
  * 
- * Callback object tool
+ * Define callback object, and provide some basic tool funtions.
  * 
  * # Contents #
  * 
  * 1. Definition
  *  * [Callback object					](#defineCallbackObject)
+ * 
  * 2. Call tool
  *  * [.call()							]{@link module:cbo~call}
  * 
@@ -23,7 +24,7 @@
  * <a name='defineCallbackObject'></a>
  * 
  * ## Definition ##
- * ### callback object ###
+ * ### Callback object ###
  * A callback object is an array object defined as :
  *  > a. `[ thisObj, methodName, argArray ]`
  *  > b. `[ thisObj, method, argArray ]`
@@ -44,14 +45,14 @@ cbo.call(...);
 
 
 /**
- * call a cbo
+ * Call a cbo
  * @function call
  * 
- * @param {cbo} cbo - a cbo object
- * @param {Array} [argArrayExtra] - extra arguments array
- * @param {bool} [insertBefore] - flag to insert `argArrayExtra` before original `argArray` of `cbo`
+ * @param {cbo} cbo - A cbo object
+ * @param {Array} [argArrayExtra] - Extra arguments array
+ * @param {bool} [insertBefore] - Flag to insert `argArrayExtra` before original `argArray` of `cbo`
  * 
- * @return according to the `cbo`
+ * @return The value returned by the method of `cbo`
  */
 function _call(cbo, argArrayExtra, insertBefore) {
 	var func = (typeof cbo[1] == "string") ? cbo[0][cbo[1]] : cbo[1];
@@ -65,14 +66,14 @@ function _call(cbo, argArrayExtra, insertBefore) {
 
 
 /**
- * combine arguments into cbo
+ * Combine arguments into cbo
  * @function combine
  * 
- * @param {cbo} cbo - a cbo object
- * @param {Array} [argArrayExtra] - extra arguments array
- * @param {bool} [insertBefore] - flag to insert `argArrayExtra` before original `argArray` of `cbo`
+ * @param {cbo} cbo - A cbo object
+ * @param {Array} [argArrayExtra] - Extra arguments array
+ * @param {bool} [insertBefore] - Flag to insert `argArrayExtra` before original `argArray` of `cbo`
  * 
- * @returns a new cbo
+ * @returns A new cbo
  */
 function combine(cbo, argArrayExtra, insertBefore) {
 	return [cbo[0], cbo[1], cbo[2] ? (insertBefore ? argArrayExtra.concat(cbo[2]) : cbo[2].concat(argArrayExtra)) : argArrayExtra];
@@ -80,13 +81,13 @@ function combine(cbo, argArrayExtra, insertBefore) {
 
 
 /**
- * create a normal callback function
+ * Create a normal callback function
  * @function toCallback
  * 
- * @param {cbo} cbo - a cbo object
- * @param {number} [reserve] - the count of reserved original prefix arguments
+ * @param {cbo} cbo - A cbo object
+ * @param {number} [reserve] - The count of reserved original prefix arguments
  * 
- * @returns a callback function
+ * @returns A normal callback function
  * 
  * @example
  * function f(a1,a2,a3,a4){
